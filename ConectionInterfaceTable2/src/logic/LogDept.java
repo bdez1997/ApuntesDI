@@ -25,7 +25,7 @@ public class LogDept {
 
 			// Ejecutamos orden SQL
 			Statement myOrder = dbms.DBOracle.getConn().createStatement();
-			String sql = "select table_name from user_tables order by table_name";
+			String sql = "SELECT DNAME,DEPTNO FROM DEPT";
 			myOrder.execute(sql);
 
 			ResultSet resultado = myOrder.getResultSet();
@@ -62,7 +62,9 @@ public class LogDept {
 
 	public static void getList() {
 		sSelectedTable=view.FrmPrincipal.lstNameTable.getValueAt(view.FrmPrincipal.lstNameTable.getSelectedRow(),0).toString();
-
+		
+		
+		System.out.println(sSelectedTable);
 		DefaultTableModel tableQuery = new DefaultTableModel();
 
 		try {
@@ -71,7 +73,7 @@ public class LogDept {
 
 			// Ejecutamos orden SQL
 			Statement myOrder = dbms.DBOracle.getConn().createStatement();
-			String sql = "SELECT * FROM "+ sSelectedTable;
+			String sql = "SELECT * FROM EMP WHERE DEPTNO = (SELECT DEPTNO FROM DEPT WHERE DNAME = '"+sSelectedTable+"')";
 			myOrder.execute(sql);
 
 			ResultSet resultado = myOrder.getResultSet();
